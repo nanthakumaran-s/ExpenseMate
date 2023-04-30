@@ -13,5 +13,6 @@ namespace Expense_Tracker___Backend.Data
         public DbSet<BudgetModel> Budget { get; set; }
         public DbSet <ThresholdModel> Threshold { get; set; }
         public DbSet<RecurringModel> Recurring { get; set; }
+        public DbSet<InvoiceModel> Invoice { get; set; }
     }
 }

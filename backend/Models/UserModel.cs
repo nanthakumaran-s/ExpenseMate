@@ -19,5 +19,9 @@ namespace Expense_Tracker___Backend.Models
 
         [Required]
         public decimal Balance { get; set; }
+
+        public string? Subscription { get; set; }
+
+        public string? Role { get; set; }
     }
 }
