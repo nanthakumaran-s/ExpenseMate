@@ -84,7 +84,7 @@ const Sidebar = () => {
   ];
 
   return (
-    <Flex width="100%" height="100vh" backgroundColor="bg">
+    <Flex width="100%" height="100vh" backgroundColor="bg" alignItems="start">
       <Flex
         width="18%"
         height="100%"
@@ -93,6 +93,7 @@ const Sidebar = () => {
         alignItems="center"
         justifyContent="space-between"
         py="10"
+        position="fixed"
       >
         <Flex flexDir="column" alignItems="center" width="80%">
           <Avatar size="lg" rounded="2xl" src={user.avatar} name={user.name} />
@@ -125,7 +126,9 @@ const Sidebar = () => {
           </Flex>
         </Flex>
       </Flex>
-      <Outlet />
+      <Flex width="80%" ml="18%">
+        <Outlet />
+      </Flex>
     </Flex>
   );
 };

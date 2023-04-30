@@ -1,4 +1,14 @@
-import { Button, Flex, FormControl, FormLabel, Input, InputGroup, InputRightElement, Text, useToast } from "@chakra-ui/react";
+import {
+  Button,
+  Flex,
+  FormControl,
+  FormLabel,
+  Input,
+  InputGroup,
+  InputRightElement,
+  Text,
+  useToast,
+} from "@chakra-ui/react";
 import React, { useState } from "react";
 import { useSetRecoilState } from "recoil";
 import { loadingAtom } from "../state/loading.atom";
@@ -9,12 +19,11 @@ import { useNavigate } from "react-router-dom";
 const SignIn = ({ setIsLogin, onOpen }) => {
   const [show, setShow] = useState(false);
   const handleClick = () => setShow(!show);
+  const [loading, setLoading] = useState(false);
   const [formInput, setFormInput] = useState({
     email: "",
     password: "",
   });
-
-  const setLoading = useSetRecoilState(loadingAtom);
   const toast = useToast();
   const navigate = useNavigate();
 
@@ -136,6 +145,7 @@ const SignIn = ({ setIsLogin, onOpen }) => {
         </Text>
       </Flex>
       <Button
+        isLoading={loading}
         colorScheme="blue"
         width="100%"
         mt={6}

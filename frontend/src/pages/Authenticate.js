@@ -35,7 +35,7 @@ const Login = () => {
 
   const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const setLoading = useSetRecoilState(loadingAtom);
+  const [loading, setLoading] = useState(false);
 
   const handleResetRequest = async () => {
     let formData = new FormData();
@@ -116,7 +116,11 @@ const Login = () => {
             <Button colorScheme="blue" mr={3} onClick={onClose}>
               Close
             </Button>
-            <Button variant="ghost" onClick={() => handleResetRequest()}>
+            <Button
+              isLoading={loading}
+              variant="ghost"
+              onClick={() => handleResetRequest()}
+            >
               Request OTP
             </Button>
           </ModalFooter>
