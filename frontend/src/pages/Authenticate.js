@@ -5,8 +5,6 @@ import {
   FormLabel,
   Heading,
   Input,
-  InputGroup,
-  InputRightElement,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -14,73 +12,30 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  Text,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { BASE_URL } from "../utils/constants";
 import axios from "axios";
 import { useSetRecoilState } from "recoil";
-import { userAtom } from "../state/user.atom";
 import { loadingAtom } from "../state/loading.atom";
-import { useNavigate } from "react-router-dom";
 import SignIn from "../components/SignIn.js";
 import SignOut from "../components/SignUp";
 import Resetpass from "../components/Resetpass";
 
 const Login = () => {
   const [isLogin, setIsLogin] = useState(true);
-  const toast = useToast();
-  const setUser = useSetRecoilState(userAtom);
-  const navigate = useNavigate();
   const [isForgetPass, setIsForgetpass] = useState(false);
   const [resetPassForm, setResetpassForm] = useState({
     email: "",
     otp: "",
     password: "",
   });
+
+  const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const setLoading = useSetRecoilState(loadingAtom);
-
-  const checkUser = async () => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      setLoading(true);
-      try {
-        var response = await axios({
-          method: "GET",
-          url: BASE_URL + "api/user",
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        });
-        if (response.data.status === true) {
-          toast({
-            title: "Authenticated",
-            description: "Logged in successfully",
-            status: "success",
-            duration: 5000,
-            isClosable: true,
-          });
-          setUser({
-            email: response.data.user.email,
-            name: response.data.user.name,
-            role: response.data.user.role,
-          });
-          setLoading(false);
-          navigate("/");
-        }
-      } catch (err) {
-        console.log(err);
-        setLoading(false);
-      }
-    }
-  };
-
-  useEffect(() => {
-    checkUser();
-  }, []);
 
   const handleResetRequest = async () => {
     let formData = new FormData();
@@ -179,14 +134,19 @@ const Login = () => {
         px="6"
       >
         <Heading fontSize="3xl" fontWeight="medium">
-          Expense Tracker
+          ExpenseMate
         </Heading>
         {isForgetPass ? (
-          <Resetpass setIsForgetpass={setIsForgetpass} setIsLogin={setIsLogin} resetPassForm={resetPassForm} setResetpassForm={setResetpassForm} />
+          <Resetpass
+            setIsForgetpass={setIsForgetpass}
+            setIsLogin={setIsLogin}
+            resetPassForm={resetPassForm}
+            setResetpassForm={setResetpassForm}
+          />
         ) : isLogin ? (
           <SignIn onOpen={onOpen} setIsLogin={setIsLogin} />
         ) : (
-          <SignOut checkUser={checkUser} setIsLogin={setIsLogin} />
+          <SignOut setIsLogin={setIsLogin} />
         )}
       </Flex>
     </Flex>

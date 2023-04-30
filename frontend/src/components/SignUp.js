@@ -4,8 +4,9 @@ import React, { useState } from 'react'
 import { useSetRecoilState } from 'recoil';
 import { loadingAtom } from '../state/loading.atom';
 import { BASE_URL } from '../utils/constants';
+import { useNavigate } from 'react-router-dom';
 
-const SignOut = ({ setIsLogin, checkUser }) => {
+const SignOut = ({ setIsLogin }) => {
     const [show, setShow] = useState(false);
     const handleClick = () => setShow(!show);
     const [signUpInput, setSignUpInput] = useState({
@@ -17,6 +18,7 @@ const SignOut = ({ setIsLogin, checkUser }) => {
 
     const setLoading = useSetRecoilState(loadingAtom);
     const toast = useToast();
+    const navigate = useNavigate();
 
     const handleRegister = async () => {
         let formData = new FormData();
@@ -41,7 +43,8 @@ const SignOut = ({ setIsLogin, checkUser }) => {
                     isClosable: true,
                 });
                 localStorage.setItem("token", response.data.token);
-                checkUser();
+                setLoading(false);
+                navigate("/");
             } else {
                 toast({
                     title: "Failed",
