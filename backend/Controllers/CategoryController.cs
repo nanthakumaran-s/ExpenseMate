@@ -1,4 +1,6 @@
 ﻿using Expense_Tracker___Backend.Data;
+using Expense_Tracker___Backend.Dto;
+using Expense_Tracker___Backend.Models;
 using Expense_Tracker___Backend.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -44,11 +46,17 @@ namespace Expense_Tracker___Backend.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> AddCategory()
+        public async Task<IActionResult> AddCategory([FromForm] AddCategoryDto categoryDto)
         {
             try
             {
-                
+                CategoryModel category = new()
+                {
+                    Name = categoryDto.Name,
+                    Type = categoryDto.Type
+                };
+                _dbContext.Add(category);
+                await _dbContext.SaveChangesAsync();
                 return Ok(new
                 {
                     status = true,

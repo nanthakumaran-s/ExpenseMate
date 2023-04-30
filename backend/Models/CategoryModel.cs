@@ -2,12 +2,6 @@
 
 namespace Expense_Tracker___Backend.Models
 {
-    public enum CategoryTypeEnum
-    {
-        Income,
-        Expense
-    }
-
     public class CategoryModel
     {
         [Key]
@@ -18,6 +12,6 @@ namespace Expense_Tracker___Backend.Models
         public string? Name { get; set; }
 
         [Required]
-        public CategoryTypeEnum Type { get; set; }
+        public string? Type { get; set; }
     }
 }

@@ -3,12 +3,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Expense_Tracker___Backend.Models
 {
-    public enum BudgetTypeEnum
-    {
-        Monthly,
-        Once
-    }
-
     public class BudgetModel
     {
         [Key]
@@ -22,7 +16,7 @@ namespace Expense_Tracker___Backend.Models
         public int Category { get; set; }
 
         [Required]
-        public BudgetTypeEnum Type { get; set; }
+        public string? Type { get; set; }
 
         [Required]
         public decimal Limit { get; set; }

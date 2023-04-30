@@ -3,12 +3,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Expense_Tracker___Backend.Models
 {
-    public enum RecurringIntervalEnum
-    {
-        Monthly,
-        Yearly
-    }
-
     public class RecurringModel
     {
         [Key]
@@ -28,6 +22,6 @@ namespace Expense_Tracker___Backend.Models
         public string? Note { get; set; }
 
         [Required]
-        public RecurringIntervalEnum Interval { get; set; }
+        public string? Interval { get; set; }
     }
 }
