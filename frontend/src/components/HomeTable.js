@@ -14,34 +14,13 @@ import "@inovua/reactdatagrid-community/theme/default-light.css";
 import { mapIcons } from "../utils/icons";
 import moment from "moment/moment";
 
-const HomeTable = () => {
+const HomeTable = ({ transactions }) => {
   const headerProps = {
     style: {
       fontWeight: "bold",
       fontSize: "1rem",
     },
   };
-
-  const data = [
-    {
-      type: "Income",
-      amount: 100,
-      category: "Job",
-      date: moment().format("Do MMM YYYY"),
-    },
-    {
-      type: "Expense",
-      amount: 250,
-      category: "Food",
-    },
-    {
-      type: "Expense",
-      category: "Travel",
-    },
-    {
-      type: "Expense",
-    },
-  ];
 
   const columns = [
     {
@@ -82,17 +61,59 @@ const HomeTable = () => {
       headerProps,
     },
     {
+      name: "note",
+      header: "Note",
+      sortable: false,
+      minWidth: 200,
+      render: ({ value }) => {
+        return (
+          <Text fontWeight="medium" fontSize="sm">
+            {value}
+          </Text>
+        );
+      },
+      headerProps,
+    },
+    {
       header: "Category",
       sortable: false,
-      maxWidth: 150,
+      minWidth: 200,
       render: ({ data }) => {
         return (
           <Flex alignItems="center" gap="3">
-            {mapIcons[data.category]}
+            {mapIcons[data.name]}
             <Text fontWeight="medium" fontSize="sm">
-              {data.category}
+              {data.name}
             </Text>
           </Flex>
+        );
+      },
+      headerProps,
+    },
+    {
+      name: "opening",
+      header: "Opening Balance",
+      sortable: false,
+      minWidth: 200,
+      render: ({ value }) => {
+        return (
+          <Text fontWeight="medium" fontSize="sm">
+            {value}
+          </Text>
+        );
+      },
+      headerProps,
+    },
+    {
+      name: "closing",
+      header: "Closing Balance",
+      sortable: false,
+      minWidth: 200,
+      render: ({ value }) => {
+        return (
+          <Text fontWeight="medium" fontSize="sm">
+            {value}
+          </Text>
         );
       },
       headerProps,
@@ -101,11 +122,11 @@ const HomeTable = () => {
       name: "date",
       header: "Date",
       sortable: false,
-      maxWidth: 150,
+      minWidth: 200,
       render: ({ value }) => {
         return (
           <Text fontWeight="medium" fontSize="sm">
-            {value}
+            {moment(value).format("Do MMM YYYY")}
           </Text>
         );
       },
@@ -134,7 +155,7 @@ const HomeTable = () => {
           idProperty="id"
           columns={columns}
           pagination
-          dataSource={data}
+          dataSource={transactions}
           defaultLimit={10}
           rowHeight={60}
           style={{ minHeight: 600 }}

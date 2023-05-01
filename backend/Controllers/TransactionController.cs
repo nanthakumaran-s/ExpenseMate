@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace Expense_Tracker___Backend.Controllers
 {
@@ -68,7 +69,7 @@ namespace Expense_Tracker___Backend.Controllers
 
         [HttpGet("recent")]
         [Authorize]
-        public async Task<IActionResult> GetRecent()
+        public async Task<IActionResult> GetRecent()    
         {
             try
             {
@@ -76,8 +77,24 @@ namespace Expense_Tracker___Backend.Controllers
                 var now = DateTime.Now;
                 var custom = now.AddDays(-90);
                var transactions = await _dbContext.Transaction
+                    .Join(
+                        _dbContext.Category,
+                        t => t.Category,
+                        c => c.Id,
+                        (t, c) => new {
+                            t.User,
+                            t.Date,
+                            t.Note,
+                            t.Opening,
+                            t.Closing,
+                            t.Amount,
+                            c.Name,
+                            c.Type
+                        }
+                    )
                     .Where(t => t.User == email && t.Date > custom)
-                    .OrderByDescending(t => t.Date).ToListAsync();
+                    .OrderByDescending(t => t.Date)
+                    .ToListAsync();
                 return Ok(new
                 {
                     status = true,
