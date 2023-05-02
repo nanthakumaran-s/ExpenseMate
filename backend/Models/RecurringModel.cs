@@ -23,5 +23,8 @@ namespace Expense_Tracker___Backend.Models
 
         [Required]
         public string? Interval { get; set; }
+        
+        [Required]
+        public string? Status { get; set; }
     }
 }
