@@ -111,5 +111,48 @@ namespace Expense_Tracker___Backend.Controllers
                 });
             }
         }
+
+        [HttpGet("monthly")]
+        [Authorize]
+        public async Task<IActionResult> GetMonthlyReports()
+        {
+            try
+            {
+                var dt = DateTime.Now;
+                var month = dt.Month;
+                var reports = await _dbContext.Transaction
+                    .Join(
+                        _dbContext.Category,
+                        t => t.Category,
+                        c => c.Id,
+                        (t, c) => new
+                        {
+                            t.Note,
+                            t.Opening,
+                            t.Closing,
+                            t.Date,
+                            t.Amount,
+                            c.Name
+                        }
+                    )
+                    .Where(t => t.Date.Month == month)
+                    .OrderBy(t => t.Date)
+                    .ToListAsync();
+                return Ok(new
+                {
+                    status = true,
+                    reports
+                });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return StatusCode(500, new
+                {
+                    status = false,
+                    message = "Some error occured"
+                });
+            }
+        }
     }
 }

@@ -75,7 +75,8 @@ namespace Expense_Tracker___Backend.Controllers
                     Name = newUser.Name,
                     Password = BCryptUtil.HashPassword(newUser.Password),
                     Avatar = newUser.Avatar,
-                    Balance = 0
+                    Balance = 0,
+                    Subscription = "Free"
                 };
                 _dbContext.Add(user);
                 await _dbContext.SaveChangesAsync();
