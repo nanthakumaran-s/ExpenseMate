@@ -7,7 +7,14 @@ import {
   Heading,
   IconButton,
   Input,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalOverlay,
   Text,
+  useDisclosure,
   useToast,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
@@ -21,6 +28,7 @@ import axios from "axios";
 import { TbArrowNarrowRight, TbFileInvoice } from "react-icons/tb";
 import { FiFilter } from "react-icons/fi";
 import { GrPowerReset } from "react-icons/gr";
+import { AiFillCheckCircle } from "react-icons/ai";
 
 const Statement = () => {
   const [transactions, setTransactions] = useState([]);
@@ -220,8 +228,108 @@ const Statement = () => {
     setFilterLoading(false);
   };
 
+  const generateInvoice = async () => {
+    const payload = new FormData();
+    if (form.from === "" && form.to === "") {
+      var today = new Date();
+      var priorDate = new Date(new Date().setDate(today.getDate() - 90));
+      payload.append("from", moment(priorDate).format("YYYY-MM-DDTHH:mm:ss"));
+      payload.append("to", moment().format("YYYY-MM-DDTHH:mm:ss"));
+    } else {
+      payload.append("from", moment(form.from).format("YYYY-MM-DDTHH:mm:ss"));
+      payload.append("to", moment(form.to).format("YYYY-MM-DDTHH:mm:ss"));
+    }
+    setInvoiceLoading(true);
+    const response = await axios({
+      method: "POST",
+      url: BASE_URL + "api/invoice",
+      data: payload,
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    });
+    console.log(response.data);
+    if (response.data.status === true) {
+      toast({
+        title: "Invoice Created",
+        description: "Invoice created successfully. Go to Invoice Details Page",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+      });
+    } else if (response.data.message === "Invoices credits ended") {
+      toast({
+        title: "Warning",
+        description: "Subscribe to get more Invoice",
+        status: "warning",
+        duration: 5000,
+        isClosable: true,
+      });
+      onOpen();
+    } else {
+      toast({
+        title: "Err",
+        description: "Some Error occurred",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+    }
+    setInvoiceLoading(false);
+  };
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   return (
     <Flex flexDir="column" width="100%" justifyContent="center" py="10" pl="10">
+      <Modal isOpen={isOpen} onClose={onClose} isCentered size="xl">
+        <ModalOverlay />
+        <ModalContent>
+          <ModalCloseButton />
+          <ModalBody>
+            <Flex
+              flexDir="column"
+              width="100%"
+              alignItems="center"
+              justifyContent="center"
+              mt="20"
+              mb="10"
+            >
+              <Heading fontSize="3xl" mb="5">
+                Upgrade to Pro
+              </Heading>
+              <Flex
+                flexDir="column"
+                width="100%"
+                align="start"
+                justifyContent="center"
+                pl="160px"
+                mt="5"
+              >
+                <Flex gap="5" alignItems="center">
+                  <AiFillCheckCircle size={30} color="gray" />
+                  <Text fontSize="md" color="gray">
+                    Unlimited Budgets
+                  </Text>
+                </Flex>
+                <Flex gap="5" alignItems="center" mt="3">
+                  <AiFillCheckCircle size={30} color="gray" />
+                  <Text fontSize="md" color="gray">
+                    Unlimited Invoice
+                  </Text>
+                </Flex>
+              </Flex>
+            </Flex>
+          </ModalBody>
+
+          <ModalFooter>
+            <Button colorScheme="blue" mr={3} onClick={onClose}>
+              Close
+            </Button>
+            <Button variant="ghost">Upgrade</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
       <Heading fontSize="3xl" mb="5">
         Statement
       </Heading>
@@ -279,7 +387,7 @@ const Statement = () => {
             variant="ghost"
             size="lg"
             leftIcon={<TbFileInvoice size="25" />}
-            onClick={() => {}}
+            onClick={generateInvoice}
             isLoading={invoiceLoading}
           >
             Generate Invoice
