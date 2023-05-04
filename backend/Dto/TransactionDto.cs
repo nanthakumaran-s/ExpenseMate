@@ -7,4 +7,10 @@
         public string? Note { get; set; }
         public DateTime Date { get; set; }
     }
+
+    public class CustomTransactionDto
+    {
+        public DateTime From { get; set; }
+        public DateTime To { get; set; }
+    }
 }

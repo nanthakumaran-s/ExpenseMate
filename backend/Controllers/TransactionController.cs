@@ -118,6 +118,7 @@ namespace Expense_Tracker___Backend.Controllers
         {
             try
             {
+                var email = JWTUtil.GetValue(HttpContext);
                 var dt = DateTime.Now;
                 var month = dt.Month;
                 var reports = await _dbContext.Transaction
@@ -132,16 +133,61 @@ namespace Expense_Tracker___Backend.Controllers
                             t.Closing,
                             t.Date,
                             t.Amount,
-                            c.Name
+                            t.User,
+                            c.Name,
+                            c.Type
                         }
                     )
-                    .Where(t => t.Date.Month == month)
+                    .Where(t => t.Date.Month == month && t.User == email)
                     .OrderBy(t => t.Date)
                     .ToListAsync();
                 return Ok(new
                 {
                     status = true,
                     reports
+                });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return StatusCode(500, new
+                {
+                    status = false,
+                    message = "Some error occured"
+                });
+            }
+        }
+
+        [HttpGet("custom")]
+        [Authorize]
+        public async Task<IActionResult> CustomTransaction([FromQuery] CustomTransactionDto customTransaction)
+        {
+            try
+            {
+                var email = JWTUtil.GetValue(HttpContext);
+                var transactions = await _dbContext.Transaction
+                    .Join(
+                        _dbContext.Category,
+                        t => t.Category,
+                        c => c.Id,
+                        (t, c) => new {
+                            t.User,
+                            t.Date,
+                            t.Note,
+                            t.Opening,
+                            t.Closing,
+                            t.Amount,
+                            c.Name,
+                            c.Type
+                        }
+                    )
+                    .Where(t => t.Date >= customTransaction.From && t.Date <= customTransaction.To && t.User == email)
+                    .OrderByDescending(t => t.Date)
+                    .ToListAsync();
+                return Ok(new
+                {
+                    status = true,
+                    transactions,
                 });
             }
             catch (Exception ex)

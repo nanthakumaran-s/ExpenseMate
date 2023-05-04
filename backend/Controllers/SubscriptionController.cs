@@ -41,6 +41,7 @@ namespace Expense_Tracker___Backend.Controllers
                             c.Type
                         }
                 )
+                .Where(s => s.User == email)
                 .ToListAsync();
             return Ok(new
             {

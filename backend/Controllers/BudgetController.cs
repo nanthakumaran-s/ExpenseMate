@@ -82,6 +82,7 @@ namespace Expense_Tracker___Backend.Controllers
                             b.Limit,
                             b.User,
                             c.Name,
+                            CategoryType = c.Type,
                         }
                     )
                     .Where(b => b.User == email)

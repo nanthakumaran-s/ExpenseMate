@@ -134,7 +134,7 @@ const SignOut = ({ setIsLogin }) => {
           type="text"
           placeholder="Copy paste you avatar URL"
           onChange={(e) =>
-            setSignUpInput((prev) => ({ ...prev, role: e.target.value }))
+            setSignUpInput((prev) => ({ ...prev, avatar: e.target.value }))
           }
         />
       </FormControl>

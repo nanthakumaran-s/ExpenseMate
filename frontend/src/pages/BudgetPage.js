@@ -7,8 +7,16 @@ import {
   FormLabel,
   Heading,
   Input,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
   Select,
   Text,
+  useDisclosure,
   useToast,
 } from "@chakra-ui/react";
 import axios from "axios";
@@ -175,6 +183,7 @@ const BudgetPage = () => {
           duration: 5000,
           isClosable: true,
         });
+        onOpen();
         setLoading(false);
       } else {
         toast({
@@ -199,8 +208,58 @@ const BudgetPage = () => {
     }
   };
 
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   return (
     <Flex flexDir="column" width="100%" justifyContent="center" py="10" pl="10">
+      <Modal isOpen={isOpen} onClose={onClose} isCentered size="xl">
+        <ModalOverlay />
+        <ModalContent>
+          <ModalCloseButton />
+          <ModalBody>
+            <Flex
+              flexDir="column"
+              width="100%"
+              alignItems="center"
+              justifyContent="center"
+              mt="20"
+              mb="10"
+            >
+              <Heading fontSize="3xl" mb="5">
+                Upgrade to Pro
+              </Heading>
+              <Flex
+                flexDir="column"
+                width="100%"
+                align="start"
+                justifyContent="center"
+                pl="160px"
+                mt="5"
+              >
+                <Flex gap="5" alignItems="center">
+                  <AiFillCheckCircle size={30} color="gray" />
+                  <Text fontSize="md" color="gray">
+                    Unlimited Budgets
+                  </Text>
+                </Flex>
+                <Flex gap="5" alignItems="center" mt="3">
+                  <AiFillCheckCircle size={30} color="gray" />
+                  <Text fontSize="md" color="gray">
+                    Unlimited Invoice
+                  </Text>
+                </Flex>
+              </Flex>
+            </Flex>
+          </ModalBody>
+
+          <ModalFooter>
+            <Button colorScheme="blue" mr={3} onClick={onClose}>
+              Close
+            </Button>
+            <Button variant="ghost">Upgrade</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
       <Heading fontSize="3xl" mb="5">
         Budgets
       </Heading>
@@ -283,29 +342,6 @@ const BudgetPage = () => {
             onClick={handleClick}
           >
             Add Budget
-          </Button>
-        </Flex>
-        <Flex
-          width="50%"
-          flexDir="column"
-          bg="white"
-          px="5"
-          py="6"
-          borderRadius="md"
-          alignItems="center"
-          justifyContent="center"
-        >
-          <Heading fontSize="3xl" mb="5">
-            Upgrade to Pro
-          </Heading>
-          <Flex gap="5" alignItems="center">
-            <AiFillCheckCircle size={30} color="gray" />
-            <Text fontSize="md" color="gray">
-              Unlimited Budgets
-            </Text>
-          </Flex>
-          <Button mt="10" width="50%" colorScheme="green">
-            Upgrade
           </Button>
         </Flex>
       </Flex>

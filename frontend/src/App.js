@@ -7,6 +7,7 @@ import InvoicePage from "./pages/InvoicePage";
 import BudgetPage from "./pages/BudgetPage";
 import SettingsPage from "./pages/SettingsPage";
 import SubscriptionsPage from "./pages/SubscriptionsPage";
+import Statement from "./pages/Statement";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
             <Route path="/budget" element={<BudgetPage />} />
             <Route path="/settings" element={<SettingsPage />} />
             <Route path="/subscriptions" element={<SubscriptionsPage />} />
+            <Route path="/statement" element={<Statement />} />
           </Route>
         </Route>
       </Routes>

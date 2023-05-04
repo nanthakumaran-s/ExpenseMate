@@ -13,6 +13,7 @@ import "@inovua/reactdatagrid-community/base.css";
 import "@inovua/reactdatagrid-community/theme/default-light.css";
 import { mapIcons } from "../utils/icons";
 import moment from "moment/moment";
+import { useNavigate } from "react-router-dom";
 
 const HomeTable = ({ transactions }) => {
   const headerProps = {
@@ -134,6 +135,8 @@ const HomeTable = ({ transactions }) => {
     },
   ];
 
+  const navigate = useNavigate();
+
   return (
     <Flex
       width="100%"
@@ -148,7 +151,11 @@ const HomeTable = ({ transactions }) => {
         <Text fontSize="lg" fontWeight="bold" mb="3">
           Transactions
         </Text>
-        <IconButton variant="ghost" icon={<BsArrowsAngleExpand />} />
+        <IconButton
+          variant="ghost"
+          icon={<BsArrowsAngleExpand />}
+          onClick={() => navigate("/statement")}
+        />
       </Flex>
       <Box mt={3}>
         <ReactDataGrid

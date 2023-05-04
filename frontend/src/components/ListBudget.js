@@ -124,6 +124,9 @@ const SingleBudget = ({ budget, threshold, getBudget }) => {
     for (let i = 0; i < report.length; i++) {
       const cur = report[i];
       var ind = new Date(cur.date);
+      if (cur.type === "Income") {
+        continue;
+      }
       if (budget.name === "Others") {
         temp[ind.getDate() - 1] += cur.amount;
         continue;
@@ -156,6 +159,7 @@ const SingleBudget = ({ budget, threshold, getBudget }) => {
         borderColor: "brown",
       },
     }));
+    const temp = {};
     for (let i = 0; i < threshold.length; i++) {
       var thres = {
         adjustScaleRange: true,
@@ -165,10 +169,9 @@ const SingleBudget = ({ budget, threshold, getBudget }) => {
         value: budget.limit * (threshold[i].percentage / 100),
         borderColor: "brown",
       };
-      const v = `line${i}`;
-      console.log(annotation);
-      setAnnotation((prev) => ({ ...prev, v: thres }));
+      temp["line" + i] = thres;
     }
+    setAnnotation((prev) => ({ ...prev, ...temp }));
   };
 
   const handleDelete = async () => {
