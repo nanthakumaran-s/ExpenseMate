@@ -1,4 +1,4 @@
-# Expense Tracker
+# ExpenseMate
 
 ## Features
 
