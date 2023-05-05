@@ -43,5 +43,12 @@ namespace Expense_Tracker___Backend.Controllers
             _recurringJobManager.AddOrUpdate("GenerateMonthlyInvoice", () => _hangfireTestService.GenerateMonthlyInvoice(), Cron.Monthly);
             return Ok();
         }
+
+        [HttpGet("/thresold")]
+        public ActionResult Threshold()
+        {
+            _recurringJobManager.AddOrUpdate("ResetThreshold", () => _hangfireTestService.ResetThreshold(), Cron.Monthly);
+            return Ok();
+        }
     }
 }

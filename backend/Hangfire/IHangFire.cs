@@ -6,5 +6,6 @@ namespace Expense_Tracker___Backend.Hangfire
     {
         Task AddSubscriptions(string type);
         Task GenerateMonthlyInvoice();
+        Task ResetThreshold();
     }
 }

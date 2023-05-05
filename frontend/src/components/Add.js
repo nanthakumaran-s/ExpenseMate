@@ -143,68 +143,70 @@ const Add = ({ getTransactions }) => {
       px="5"
       py="6"
       borderRadius="md"
+      justifyContent="space-between"
     >
-      <Text fontSize="lg" fontWeight="bold" mb="3">
-        Add Transaction
-      </Text>
-      <FormControl mt="3">
-        <Flex alignItems="center" justifyContent="space-between">
-          <FormLabel>Type</FormLabel>
-          <ButtonGroup size="sm" isAttached>
-            <Button
-              colorScheme={isExpense ? "green" : "gray"}
-              onClick={() => setIsExpense(true)}
-            >
-              Expense
-            </Button>
-            <Button
-              colorScheme={!isExpense ? "green" : "gray"}
-              onClick={() => setIsExpense(false)}
-            >
-              Income
-            </Button>
-          </ButtonGroup>
-        </Flex>
-      </FormControl>
-      <FormControl>
-        <FormLabel>Category</FormLabel>
-        <Select
-          placeholder="Select option"
-          onChange={(event) => {
-            setForm((prev) => ({ ...prev, category: event.target.value }));
-          }}
-          value={form.category}
-        >
-          {categoryToShow.map((e, i) => (
-            <option key={i} value={e.id}>
-              {e.name}
-            </option>
-          ))}
-        </Select>
-      </FormControl>
-      <FormControl mt="3">
-        <FormLabel>Amount</FormLabel>
-        <Input
-          type="number"
-          placeholder="amount that you spent"
-          value={form.amount}
-          onChange={(event) => {
-            setForm((prev) => ({ ...prev, amount: event.target.value }));
-          }}
-        />
-      </FormControl>
-      <FormControl mt="3">
-        <FormLabel>Note</FormLabel>
-        <Input
-          type="text"
-          placeholder="note for this transation"
-          value={form.note}
-          onChange={(event) => {
-            setForm((prev) => ({ ...prev, note: event.target.value }));
-          }}
-        />
-      </FormControl>
-      <FormControl mt="3">
+      <Flex width="100%" flexDir="column">
+        <Text fontSize="lg" fontWeight="bold" mb="3">
+          Add Transaction
+        </Text>
+        <FormControl mt="3">
+          <Flex alignItems="center" justifyContent="space-between">
+            <FormLabel>Type</FormLabel>
+            <ButtonGroup size="sm" isAttached>
+              <Button
+                colorScheme={isExpense ? "green" : "gray"}
+                onClick={() => setIsExpense(true)}
+              >
+                Expense
+              </Button>
+              <Button
+                colorScheme={!isExpense ? "green" : "gray"}
+                onClick={() => setIsExpense(false)}
+              >
+                Income
+              </Button>
+            </ButtonGroup>
+          </Flex>
+        </FormControl>
+        <FormControl>
+          <FormLabel>Category</FormLabel>
+          <Select
+            placeholder="Select option"
+            onChange={(event) => {
+              setForm((prev) => ({ ...prev, category: event.target.value }));
+            }}
+            value={form.category}
+          >
+            {categoryToShow.map((e, i) => (
+              <option key={i} value={e.id}>
+                {e.name}
+              </option>
+            ))}
+          </Select>
+        </FormControl>
+        <FormControl mt="3">
+          <FormLabel>Amount</FormLabel>
+          <Input
+            type="number"
+            placeholder="amount that you spent"
+            value={form.amount}
+            onChange={(event) => {
+              setForm((prev) => ({ ...prev, amount: event.target.value }));
+            }}
+          />
+        </FormControl>
+        <FormControl mt="3">
+          <FormLabel>Note</FormLabel>
+          <Input
+            type="text"
+            placeholder="note for this transation"
+            value={form.note}
+            onChange={(event) => {
+              setForm((prev) => ({ ...prev, note: event.target.value }));
+            }}
+          />
+        </FormControl>
+        {/* <FormControl mt="3">
         <Flex alignItems="center" justifyContent="space-between">
           <FormLabel>Date</FormLabel>
           <ButtonGroup size="sm" isAttached>
@@ -222,19 +224,20 @@ const Add = ({ getTransactions }) => {
             </Button>
           </ButtonGroup>
         </Flex>
-      </FormControl>
-      {!isNow && (
-        <FormControl mt="3">
-          <Input
-            type="date"
-            value={form.date}
-            onChange={(event) => {
-              setForm((prev) => ({ ...prev, date: event.target.value }));
-            }}
-          />
-        </FormControl>
-      )}
-      <Divider mt="3" />
+      </FormControl> */}
+        {!isNow && (
+          <FormControl mt="3">
+            <Input
+              type="date"
+              value={form.date}
+              onChange={(event) => {
+                setForm((prev) => ({ ...prev, date: event.target.value }));
+              }}
+            />
+          </FormControl>
+        )}
+        <Divider mt="3" />
+      </Flex>
       <Button
         isLoading={loading}
         mt="3"

@@ -189,7 +189,15 @@ const SingleBudget = ({ budget, threshold, getBudget }) => {
   };
 
   return (
-    <Flex width="100%" flexDir="row" bg="white" px="5" py="6" borderRadius="md">
+    <Flex
+      width="100%"
+      flexDir="row"
+      bg="white"
+      px="5"
+      py="6"
+      borderRadius="md"
+      mb="5"
+    >
       <Flex width="40%" flexDir="column" justifyContent="space-between">
         <Flex flexDir="column">
           <Flex gap="3" align="start" mb="3">

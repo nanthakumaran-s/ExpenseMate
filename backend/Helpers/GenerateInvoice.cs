@@ -28,6 +28,16 @@ namespace Expense_Tracker___Backend.Helpers
             var writer = PdfWriter.GetInstance(document, new FileStream(filePath, FileMode.Create));
             document.Open();
 
+            Paragraph body = new Paragraph("Invoice Statement");
+            document.Add(body);
+
+            Paragraph body1 = new Paragraph($"From: {transactionDto.From} -> To: {transactionDto.To}");
+            document.Add(body1);
+
+            Paragraph body2 = new Paragraph("");
+            document.Add(body2);
+
+
             var transactions = await _dbContext.Transaction
                     .Join(
                         _dbContext.Category,

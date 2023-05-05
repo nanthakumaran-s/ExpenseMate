@@ -64,5 +64,17 @@ namespace Expense_Tracker___Backend.Hangfire
             }
             Console.WriteLine($"{DateTime.Now.ToString()} - Generated Monthly Invoice");
         }
+
+        public async Task ResetThreshold()
+        {
+            var thresholds = await _dbContext.Threshold.ToListAsync();
+            foreach(ThresholdModel threshold in thresholds)
+            {
+                threshold.Status = "Active";
+                _dbContext.Threshold.Update(threshold);
+            }
+            await _dbContext.SaveChangesAsync();
+            Console.WriteLine($"{DateTime.Now.ToString()} - Reset Threshold");
+        }
     }
 }

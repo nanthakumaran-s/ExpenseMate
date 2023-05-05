@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Stripe;
 
 namespace Expense_Tracker___Backend
 {
@@ -51,6 +52,8 @@ namespace Expense_Tracker___Backend
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            StripeConfiguration.ApiKey = "sk_test_51N4HMZSGBongFGBv5RQvODvG28CgMt71xphDIJB5bDNhAw0x4am4iVQQAjX3GPHiTobChncLc6ZC6ovrCNp3XtXQ00zHavJ2Bh";
 
             app.UseHttpsRedirection();
             app.UseMiddleware<JWTMiddleware>();

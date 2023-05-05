@@ -6,6 +6,7 @@ using Expense_Tracker___Backend.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Stripe.Checkout;
 using System.IdentityModel.Tokens.Jwt;
 
 namespace Expense_Tracker___Backend.Controllers
@@ -233,6 +234,75 @@ namespace Expense_Tracker___Backend.Controllers
                 {
                     status = true,
                     message = "Password changed successful"
+                });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return StatusCode(500, new
+                {
+                    status = false,
+                    message = "Some error occured"
+                });
+            }
+        }
+
+        [HttpGet("checkout")]
+        [Authorize]
+        public async Task<IActionResult> Checkout()
+        {
+            var domain = "http://localhost:3000";
+            var options = new SessionCreateOptions
+            {
+                LineItems = new List<SessionLineItemOptions>
+                {
+                  new SessionLineItemOptions
+                  {
+                    Price = "price_1N4HhVSGBongFGBvXcsxWEM3",
+                    Quantity = 1,
+                  },
+                },
+                Mode = "payment",
+                SuccessUrl = domain + "?payment=true",
+                CancelUrl = domain + "?payment=false",
+            };
+            var service = new SessionService();
+            Session session = service.Create(options);
+
+            return Ok(new
+            {
+                link = session.Url
+            });
+        }
+
+        [HttpPatch("upgrade")]
+        [Authorize]
+        public async Task<IActionResult> Upgrade()
+        {
+            try
+            {
+                var email = JWTUtil.GetValue(HttpContext);
+                var user = _dbContext.User.FirstOrDefault(u => u.Email == email);
+                if (user.Subscription == "Pro")
+                {
+                    return Ok();
+                }
+                user.Subscription = "Pro";
+                _dbContext.User.Update(user);
+                RecurringModel model = new()
+                {
+                    Note = "Expense Mate",
+                    Amount = 150,
+                    User = email,
+                    Interval = "Monthly",
+                    Category = 6,
+                    Status = "Active"
+                };
+                _dbContext.Recurring.Add(model);
+                await _dbContext.SaveChangesAsync();
+                return Ok(new
+                {
+                    status= true,
                 });
             }
             catch (Exception ex)

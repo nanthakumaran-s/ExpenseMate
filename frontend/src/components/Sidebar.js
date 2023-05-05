@@ -76,11 +76,11 @@ const Sidebar = () => {
       icon: <TbFileInvoice size={25} />,
       path: "/invoice",
     },
-    {
-      name: "Settings",
-      icon: <BsGear size={25} />,
-      path: "/settings",
-    },
+    // {
+    //   name: "Settings",
+    //   icon: <BsGear size={25} />,
+    //   path: "/settings",
+    // },
   ];
 
   return (

@@ -85,16 +85,23 @@ namespace Expense_Tracker___Backend.Helpers
                         _dbContext.Threshold.Update(currentThres);
                         await _dbContext.SaveChangesAsync();
                         MailHandler.SendMail(
-                           "Budget Exceeded",
+                           $"{currentThres.Percentage}% of the budget exceeded",
                            b.User!,
                            b.User!,
                            $"You have exeeded your budget \n\n" +
-                           $"${(b.Name == "Others" ? "Monthly Budget" : $"Categorical Budget for {b.Name}")} is Exceeded\n" +
+                           $"{(b.Name == "Others" ? "Monthly Budget" : $"Categorical Budget for {b.Name}")} is Exceeded\n" +
                            $"Limit {b.Limit}\n" +
                            $"Current Spend {spend}\n" +
                            $"{currentThres.Percentage}% exceeded\n\n\n" +
                            $"With Regards\n" +
-                           $"Team ExpenseMate"
+                           $"Team ExpenseMate",
+                           $"<h2>You have exeeded your budget</h2>" +
+                           $"<p>{(b.Name == "Others" ? "Monthly Budget" : $"Categorical Budget for {b.Name}")} is Exceeded</p>" +
+                           $"<p>Limit {b.Limit}</p>" +
+                           $"<p>Current Spend {spend}</p>" + 
+                           $"<p>{currentThres.Percentage}% exceeded</p><br/><br/>" +
+                           $"<p>With Regards</p>" +
+                           $"<p>Team ExpenseMate</p>"
                         );
                     }
                 }

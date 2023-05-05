@@ -278,6 +278,17 @@ const Statement = () => {
     setInvoiceLoading(false);
   };
 
+  const makePayment = async () => {
+    const response = await axios({
+      method: "GET",
+      url: BASE_URL + "api/user/checkout",
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    });
+    window.location.href = response.data.link;
+  };
+
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -326,7 +337,9 @@ const Statement = () => {
             <Button colorScheme="blue" mr={3} onClick={onClose}>
               Close
             </Button>
-            <Button variant="ghost">Upgrade</Button>
+            <Button variant="ghost" onClick={makePayment}>
+              Upgrade
+            </Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
