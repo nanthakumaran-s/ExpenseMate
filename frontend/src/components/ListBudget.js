@@ -148,17 +148,6 @@ const SingleBudget = ({ budget, threshold, getBudget }) => {
   }, [report]);
 
   const setAnnotations = () => {
-    setAnnotation((prev) => ({
-      ...prev,
-      first: {
-        adjustScaleRange: true,
-        drawTime: "afterDatasetsDraw",
-        type: "line",
-        scaleID: "y",
-        value: budget.limit,
-        borderColor: "brown",
-      },
-    }));
     const temp = {};
     for (let i = 0; i < threshold.length; i++) {
       var thres = {
@@ -167,7 +156,7 @@ const SingleBudget = ({ budget, threshold, getBudget }) => {
         type: "line",
         scaleID: "y",
         value: budget.limit * (threshold[i].percentage / 100),
-        borderColor: "brown",
+        borderColor: threshold[i].status === "Active" ? "green" : "brown",
       };
       temp["line" + i] = thres;
     }

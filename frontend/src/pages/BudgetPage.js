@@ -163,6 +163,7 @@ const BudgetPage = () => {
           category: 0,
           limit: 0,
         });
+        addThreshold(response.data.budget.id, "100");
         for (let i = 0; i < value.length; i++) {
           addThreshold(response.data.budget.id, value[i]);
         }

@@ -144,7 +144,8 @@ namespace Expense_Tracker___Backend.Controllers
                 ThresholdModel model = new()
                 {
                     Budget = addThresholdDto.BudgetId,
-                    Percentage = addThresholdDto.Percentage
+                    Percentage = addThresholdDto.Percentage,
+                    Status = "Active"
                 };
                 _dbContext.Threshold.Add(model);
                 await _dbContext.SaveChangesAsync();

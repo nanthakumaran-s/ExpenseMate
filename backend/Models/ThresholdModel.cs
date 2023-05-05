@@ -14,5 +14,8 @@ namespace Expense_Tracker___Backend.Models
 
         [Required]
         public int Percentage { get; set; }
+
+        [Required]
+        public string? Status { get; set; }
     }
 }

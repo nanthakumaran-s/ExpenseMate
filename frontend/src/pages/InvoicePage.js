@@ -191,7 +191,6 @@ const InvoicePage = () => {
         px="5"
         py="6"
         borderRadius="md"
-        mt="10"
       >
         <Text fontSize="lg" fontWeight="bold" mb="3">
           Invoices

@@ -1,5 +1,7 @@
 using Expense_Tracker___Backend.Data;
+using Expense_Tracker___Backend.Hangfire;
 using Expense_Tracker___Backend.Middleware;
+using Hangfire;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -34,6 +36,10 @@ namespace Expense_Tracker___Backend
                 };
             });
 
+            builder.Services.AddHangfire(x => x.UseSqlServerStorage(builder.Configuration.GetConnectionString("dB")));
+            builder.Services.AddHangfireServer();
+            builder.Services.AddScoped<IHangfireTestJobService, HangfireTestJobService>();
+
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -55,6 +61,8 @@ namespace Expense_Tracker___Backend
                     .AllowAnyMethod()
                     .AllowAnyHeader()
             );
+            app.UseHangfireDashboard();
+
 
 
             app.MapControllers();

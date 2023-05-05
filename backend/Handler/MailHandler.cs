@@ -8,13 +8,13 @@ namespace Expense_Tracker___Backend.Handler
     {
         public static void SendMail(string subject, string email, string name, string text)
         {
-            string apiKey = Environment.GetEnvironmentVariable("SENDGRID_API_KEY")!;
-            Console.WriteLine(apiKey);
+            string apiKey = Environment.GetEnvironmentVariable("SENDGRID")!;
+            Console.WriteLine("API " + apiKey);
             if (apiKey != null)
             {
 
                 var client = new SendGridClient(apiKey);
-                var from = new EmailAddress("nanthakumaran.ofcl+no-reply@gmail.com", "Nanthakumaran S");
+                var from = new EmailAddress("riyazurrazakn.19ece@kongu.edu", "no-reply@expensemate");
                 var to = new EmailAddress(email, name);
                 var msg = MailHelper.CreateSingleEmail(from, to, subject, text, text);
                 var response = client.SendEmailAsync(msg).Result;

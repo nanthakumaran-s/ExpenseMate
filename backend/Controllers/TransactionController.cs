@@ -1,5 +1,6 @@
 ﻿using Expense_Tracker___Backend.Data;
 using Expense_Tracker___Backend.Dto;
+using Expense_Tracker___Backend.Helpers;
 using Expense_Tracker___Backend.Models;
 using Expense_Tracker___Backend.Utils;
 using Microsoft.AspNetCore.Authorization;
@@ -52,6 +53,7 @@ namespace Expense_Tracker___Backend.Controllers
                 _dbContext.Transaction.Add(transaction);
                 _dbContext.User.Update(user);
                 await _dbContext.SaveChangesAsync();
+                await CheckBudget.Check(_dbContext, email);
                 return Ok(new {
                     status = true,
                     transaction
